@@ -68,6 +68,21 @@ endif()
 if(FLECS_STATIC)
     add_flecs_target(flecs_static STATIC)
     target_compile_definitions(flecs_static PUBLIC flecs_STATIC)
+
+    get_property(MSVC_RUNTIME_LIBRARY_DEFAULT TARGET flecs_static PROPERTY MSVC_RUNTIME_LIBRARY)
+    string(CONCAT "MSVC_RUNTIME_LIBRARY_STR"
+        $<$<CONFIG:Debug>:
+            MultiThreadedDebug
+        >
+        $<$<CONFIG:Dist>:
+            MultiThreaded
+        >
+        $<$<CONFIG:Release>:
+            MultiThreaded
+        >
+        #$<$<NOT:$<OR:$<CONFIG:Dist>,$<CONFIG:Release>>>:${MSVC_RUNTIME_LIBRARY_DEFAULT}>
+    )
+    set_target_properties(flecs_static PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUNTIME_LIBRARY_STR})
 endif()
 
 if(FLECS_TESTS)
