@@ -17,3 +17,11 @@ bazel-testlogs
 .vs
 out
 docs/html
+*.obj
+*.tlog
+*.vcxproj
+*.filters
+*.sln
+cmake_install.cmake
+*.lib
+flecs_static.dir/
